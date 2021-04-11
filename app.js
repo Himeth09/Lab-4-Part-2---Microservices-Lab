@@ -165,19 +165,61 @@ function fetchComments($id) {
 function setComment($id) {
 
     //TODO complete implementation using the product id
-    alert("app.js/setComment() not implemented")
+    //alert("app.js/setComment() not implemented")
 
     //HINT
     //Take note of how the Ajax call in app.js/fetchComments() posts a GET request to corresponding API endpoint.
     //Look at the Microservice API Documentation and find out the appripriate type of request for this action.
+    var comment;
 
+    $.ajax({
+        url: Url+'SetComment',
+        type: 'post',
+        dataType: 'json',
+        data: JSON.stringify({"product_id":$id, "comment":$("#message-text").val(),"score":$("#score").val()}),
+        contentType: 'text/plain',
+
+        success: function(data) {
+            alert("Your comment has been posted successfully!");
+        },
+
+        error: function(data){
+            alert("Error when posting comment!");
+        }
+
+    });
 }
 
 function addToCart($id) {
 
     //TODO complete implementation using the product id
-    alert("app.js/addToCart() not implemented")
+    //alert("app.js/addToCart() not implemented")
 
+    let email =$.trim($('#email').val()); //gets the user's email
+
+    //email validation
+
+    if( email !='' ) {
+        sessionStorage.setItem('email', email); //setItem 'email' in sessionStorage to be the user's email. You can access sessionStorage by sessionStorage.getItem().
+    } else {
+        alert("Please enter your email at top of page."); //alert user since email is empty
+    }
+    
+    $.ajax({
+        url: Url+'AddToCart',
+        type: 'post',
+        dataType: 'json',
+        data: JSON.stringify({"email":email ,"product_id":$id}),
+        contentType: 'json',
+
+        success: function(data){
+            alert("Item has been added to cart successfully!");
+        },
+
+        error: function(data){
+            alert("Failed to add item to cart!");
+        }
+    });
 
 }
 
